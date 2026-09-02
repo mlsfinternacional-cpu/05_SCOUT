@@ -4,7 +4,7 @@
 > Primeiro laboratório de dados do SCOUT a partir de uma base pública do
 > Ministério da Ciência, Tecnologia e Inovação (MCTI).
 
-![Conceito visual do SCOUT](scout-conceito.jpeg)
+![Conceito visual do SCOUT](imagens/conceito.jpeg)
 
 ---
 
