@@ -1,0 +1,27 @@
+Leiame - INDICADORES_CTI_PUB_2025.zip
+
+Bem-vindo ao arquivo dos Indicadores Nacionais de Ciência, Tecnologia e Inovação (CT&I) publicados até dezembro de 2025. Esses indicadores agregam dados de diversas fontes para fornecer uma visão abrangente do sistema nacional de Ciência, Tecnologia e Inovação, incluindo seus diversos atores, tanto ligados quanto não ligados ao governo federal, em suas várias dimensões. Isso permite a comparação com outros países e a realização de análises variadas sobre as políticas de CT&I.
+
+Conteúdo do Arquivo:
+
+1) Formato Excel (INDICADORES_CTI_PUB_2025.xlsx)
+-Abra este arquivo usando o Microsoft Excel.
+-Encontre detalhes da metodologia na aba 'METODOLOGIA'.
+
+2) Formato RData (INDICADORES_CTI_PUB_2025.RData)
+
+3) Formato JSON (INDICADORES_CTI_PUB_2025.json)
+
+Para abrir os arquivos no formato RData e json, instale a Linguagem R em seu computador (https://posit.co/download/rstudio-desktop/).
+
+Conjuntos de Dados Inclusos:
+
+DBINDICADORES: Conjunto de indicadores disponibilizados pela Coordenação de Indicadores de Ciência e Tecnologia (COICT) do MCTI.
+DBINDICADORES_VALORES: Valores anuais dos indicadores.
+DBTABELAS: Conjunto de tabelas disponibilizadas no site do MCTI: https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/indicadores.
+DBTABELA_UF: Tabela para auxiliar no agrupamento de indicadores que são disponibilizados por Unidade da Federação (UF) e por Regiões do Brasil.
+
+Dicas Úteis:
+Os dados estão interligados. Por exemplo, a coluna 'INDICADOR' em DBINDICADORES_VALORES se relaciona com a mesma coluna em DBINDICADORES.
+
+Link para o site: https://www.gov.br/mcti/pt-br/acompanhe-o-mcti/indicadores.

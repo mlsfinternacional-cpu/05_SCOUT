@@ -1,0 +1,33 @@
+## AMBIENTE VIRTUAL PYTHON
+.venv/
+
+# CACHE DO PYTHON
+__pycache__/
+*.py[cod]
+
+# JUPYTER
+.ipynb_checkpoints/
+
+# VARIAVEIS DE AMBIENTE / SEGREDOS
+.env
+.env.*
+
+# CONFIGURACOES LOCAIS DO VS CODE
+.vscode/
+
+# ARQUIVOS TEMPORARIOS DO SISTEMA
+.DS_Store
+Thumbs.db
+
+# ARQUIVOS TEMPORARIOS DO EXCEL / LIBREOFFICE
+~$*.xlsx
+~$*.xls
+.~lock.*#
+
+# ARQUIVOS TEMPORARIOS / LOCK
+*.lock
+
+# ARQUIVOS DO R
+*.RData
+.Rhistory
+.Rproj.user/
