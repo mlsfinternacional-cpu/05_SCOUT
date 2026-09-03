@@ -6,8 +6,6 @@
 
 **Status:** em desenvolvimento
 
-![SCOUT — Radar Tecnológico](imagens/scout_radar.jpeg)
-
 ---
 
 ## 1. Sobre o SCOUT
@@ -99,9 +97,7 @@ Foi realizada uma verificação de duplicidade utilizando a combinação:
 
 `ANO + INDICADOR`
 
-Resultado:
-
-**0 duplicidades encontradas.**
+**Resultado: 0 duplicidades encontradas.**
 
 A combinação `ANO + INDICADOR` foi validada como a granularidade adotada para a tabela fato deste ciclo.
 
@@ -141,7 +137,7 @@ Esse modelo foi utilizado para compreender as estruturas existentes na base, as 
 
 ## 7.1 Modelo conceitual
 
-![Modelo conceitual do M1.2](imagens/conceito_m1_2.jpeg)
+![Modelo conceitual do M1.2](imagens/conceito.jpeg)
 
 O modelo conceitual representa o entendimento da estrutura encontrada na fonte.
 
@@ -157,7 +153,7 @@ A partir da investigação, foi definido um **Star Schema simplificado** para o 
 
 O modelo foi deliberadamente mantido enxuto, considerando a pergunta de investigação e evitando adicionar estruturas que não sejam necessárias nesta etapa.
 
-![Modelo dimensional decidido](imagens/modelo_decidido.jpeg)
+![Modelo dimensional escolhido](imagens/Modelo_schema_trabalho.jpeg)
 
 O modelo efetivamente adotado é composto por:
 
