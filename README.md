@@ -6,6 +6,8 @@
 
 **Status:** em desenvolvimento
 
+![SCOUT — Radar Tecnológico](imagens/conceito.jpeg)
+
 ---
 
 ## 1. Sobre o SCOUT
@@ -131,27 +133,13 @@ O código do indicador pode carregar informação contextual que não aparece co
 
 # 7. Modelagem
 
-A investigação da fonte levou à construção de um modelo conceitual inicial.
+A investigação da fonte levou à definição de um modelo dimensional simplificado para o recorte analítico deste M1.2.
 
-Esse modelo foi utilizado para compreender as estruturas existentes na base, as relações identificadas e as possibilidades de organização dos dados.
+A modelagem foi deliberadamente mantida enxuta, considerando a pergunta de investigação e as relações efetivamente identificadas na fonte.
 
-## 7.1 Modelo conceitual
+## 7.1 Modelo dimensional escolhido
 
-![Modelo conceitual do M1.2](imagens/conceito.jpeg)
-
-O modelo conceitual representa o entendimento da estrutura encontrada na fonte.
-
-Durante essa etapa, foram identificadas relações diretas e relações que dependem do código ou do contexto do indicador.
-
-A análise dessas relações orientou a decisão sobre quais estruturas seriam efetivamente necessárias para o recorte deste M1.2.
-
----
-
-## 7.2 Modelo dimensional escolhido
-
-A partir da investigação, foi definido um **Star Schema simplificado** para o M1.2.
-
-O modelo foi deliberadamente mantido enxuto, considerando a pergunta de investigação e evitando adicionar estruturas que não sejam necessárias nesta etapa.
+A partir da investigação da estrutura dos dados, foi definido o seguinte **Star Schema simplificado**:
 
 ![Modelo dimensional escolhido](imagens/Modelo_schema_trabalho.jpeg)
 
@@ -161,7 +149,7 @@ O modelo efetivamente adotado é composto por:
 - `FATO_INDICADORES_VALOR`
 - `DIM_ANO`
 
-A decisão de simplificação busca manter coerência entre:
+A decisão busca manter coerência entre:
 
 **pergunta → dados → modelo → análise**
 
