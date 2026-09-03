@@ -1,42 +1,32 @@
 # SCOUT — M1.2
+
 ## Evolução do dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina
 
-> Primeiro laboratório de dados do SCOUT a partir de uma base pública do
-> Ministério da Ciência, Tecnologia e Inovação (MCTI).
+> Primeiro laboratório de dados do SCOUT a partir de uma base pública do Ministério da Ciência, Tecnologia e Inovação (MCTI).
 
-![Conceito visual do SCOUT](imagens/conceito.jpeg)
+**Status:** em desenvolvimento
 
 ---
 
 ## 1. Sobre o SCOUT
 
-O SCOUT é um projeto de investigação orientado por dados, concebido para
-observar mudanças ao longo do tempo e construir uma engrenagem reutilizável
-de coleta, estruturação, análise e comunicação de evidências.
+O SCOUT é um projeto de investigação orientado por dados, concebido para observar mudanças ao longo do tempo e construir uma engrenagem reutilizável de coleta, estruturação, análise e comunicação de evidências.
 
-O Projeto Avaliativo M1.2 representa a primeira peça concreta e verificável
-dessa proposta.
+O Projeto Avaliativo M1.2 representa a primeira peça concreta e verificável dessa proposta.
 
-Neste primeiro ciclo, a base pública de Indicadores Nacionais de Ciência,
-Tecnologia e Inovação (CT&I), do MCTI, é utilizada como laboratório de
-experimentação.
+Neste primeiro ciclo, uma base pública do Ministério da Ciência, Tecnologia e Inovação (MCTI) é utilizada como laboratório de experimentação.
 
-O objetivo não é construir o SCOUT inteiro, mas aplicar sua lógica em um
-recorte real de dados públicos.
+O objetivo deste M1.2 não é construir o SCOUT inteiro, mas aplicar sua lógica em um recorte real de dados públicos.
 
 ---
 
 ## 2. Pergunta de investigação
 
-### Como evoluiu o dispêndio estadual em Ciência, Tecnologia e Inovação
-### em Santa Catarina ao longo do tempo?
+### Como evoluiu o dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina ao longo do tempo?
 
-O recorte foi definido após a exploração da estrutura da base, considerando
-a disponibilidade de indicadores estaduais e de séries históricas.
+O recorte foi definido após a exploração da estrutura da base, considerando a existência de indicadores estaduais e de séries históricas.
 
-O projeto concentra a análise em Santa Catarina para manter o primeiro
-ciclo do SCOUT suficientemente delimitado, sem perder a possibilidade de
-expansão futura para outras Unidades da Federação.
+A escolha por Santa Catarina mantém o primeiro ciclo do SCOUT delimitado e permite desenvolver a cadeia completa de investigação antes de ampliar o projeto para outros recortes.
 
 ---
 
@@ -50,9 +40,7 @@ expansão futura para outras Unidades da Federação.
 
 `INDICADORES_CeT_PUB_2025.xlsx`
 
-A base disponibilizada pelo MCTI contém diferentes estruturas relacionadas
-a indicadores, valores, unidades da federação, universidades, estudos e
-metadados.
+A fonte contém diferentes estruturas relacionadas a indicadores, valores, unidades da federação, universidades, estudos e metadados.
 
 No arquivo analisado foram identificadas sete abas:
 
@@ -64,11 +52,13 @@ No arquivo analisado foram identificadas sete abas:
 - `TABELA_UNIVERSIDADE`
 - `ESTUDO`
 
+A fonte original é preservada e não é alterada durante a investigação.
+
 ---
 
 ## 4. Entendimento da fonte
 
-A investigação inicial identificou duas estruturas centrais:
+A investigação inicial identificou duas estruturas centrais para o recorte analítico.
 
 ### `INDICADORES`
 
@@ -79,9 +69,11 @@ Contém os metadados dos indicadores, incluindo:
 - `TIPO_INDICADOR`
 - `GRUPO_INDICADOR`
 - `FONTE_INDICADOR`
-- `ELABORACAO_INDICADOR`
 - `NOTAS_ESPECIFICAS`
+- `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
+
+Essa estrutura permite compreender o significado e as características de cada indicador.
 
 ### `INDICADORES_VALOR`
 
@@ -91,33 +83,41 @@ Contém os valores históricos:
 - `INDICADOR`
 - `VALOR`
 
-A relação central observada é:
+A relação direta identificada entre as estruturas é:
 
 `INDICADORES.INDICADOR → INDICADORES_VALOR.INDICADOR`
 
-A primeira estrutura explica o indicador; a segunda registra seu valor
-em determinado ano.
+Assim, a tabela de metadados explica o indicador e a tabela de valores registra sua ocorrência ao longo do tempo.
 
 ---
 
 ## 5. Granularidade
 
-Foi realizada uma verificação de duplicidade utilizando `ANO + INDICADOR`.
+Foi realizada uma verificação de duplicidade utilizando a combinação:
+
+`ANO + INDICADOR`
 
 Resultado:
 
 **0 duplicidades encontradas.**
 
-Assim, `ANO + INDICADOR` foi validado como candidata à granularidade da
-tabela fato utilizada no modelo.
+A combinação `ANO + INDICADOR` foi, portanto, validada como candidata à granularidade da tabela fato utilizada no modelo.
+
+### Granularidade definida
+
+> Um indicador em um determinado ano.
+
+### Métrica
+
+`VALOR`
 
 ---
 
-## 6. Uma particularidade importante da base
+## 6. Particularidade geográfica da fonte
 
-Os códigos dos indicadores podem incorporar o próprio recorte geográfico.
+Uma característica importante identificada durante a investigação é que o recorte geográfico pode estar incorporado ao próprio código do indicador.
 
-Exemplos:
+Foram observados, por exemplo:
 
 - `DISP_EST_CT_REG_N`
 - `DISP_EST_CT_REG_NE`
@@ -125,28 +125,29 @@ Exemplos:
 - `DISP_EST_CT_REG_S`
 - `DISP_EST_CT_REG_CO`
 
-Também existem códigos específicos por Unidade da Federação.
+Também existem códigos específicos relacionados às Unidades da Federação.
 
-Essa característica foi considerada na definição do recorte e no tratamento
-dos dados.
+Essa característica foi considerada na definição do recorte analítico e deverá ser tratada na etapa de modelagem e tratamento dos dados.
+
+Para este M1.2, o recorte escolhido é:
+
+**Santa Catarina (SC).**
 
 ---
 
 ## 7. Modelo dimensional
 
-Após a investigação da estrutura da fonte, foi definido um **Star Schema
-simplificado** para o M1.2.
+Após a investigação da estrutura da fonte, foi definido um **Star Schema simplificado** para o M1.2.
 
-O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico
-e evitando adicionar estruturas que não sejam necessárias nesta etapa.
+O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico e evitando adicionar estruturas que não sejam necessárias nesta etapa.
 
-![Modelo dimensional decidido](imagens/modelo_decidido.jpeg)
+![Modelo dimensional decidido](imagens/Modelo_conceitual_010826.jpeg)
 
 ### Tabela fato
 
 `FATO_INDICADORES_VALOR`
 
-**Grão:**
+**Granularidade:**
 
 > um indicador em um determinado ano.
 
@@ -154,17 +155,19 @@ e evitando adicionar estruturas que não sejam necessárias nesta etapa.
 
 `VALOR`
 
-Campos:
+**Campos:**
 
 - `ANO`
 - `INDICADOR`
 - `VALOR`
 
+A tabela fato concentra os valores utilizados na análise.
+
 ### Dimensão indicador
 
 `DIM_INDICADOR`
 
-Campos:
+Campos provenientes da estrutura `INDICADORES`:
 
 - `INDICADOR`
 - `DESCRICAO_INDICADOR`
@@ -175,6 +178,8 @@ Campos:
 - `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
+A dimensão indicador fornece o contexto necessário para interpretar a métrica `VALOR`.
+
 ### Dimensão temporal
 
 `DIM_ANO`
@@ -183,122 +188,21 @@ Campo:
 
 - `ANO`
 
-### Relações
-
-A relação direta identificada entre a dimensão de indicadores e a tabela
-fato ocorre por meio de:
-
-`DIM_INDICADOR.INDICADOR → FATO_INDICADORES_VALOR.INDICADOR`
-
-A dimensão temporal se relaciona à tabela fato por:
-
-`DIM_ANO.ANO → FATO_INDICADORES_VALOR.ANO`
-
-O recorte geográfico em Santa Catarina está presente no próprio código dos
-indicadores selecionados, conforme a estrutura identificada na fonte.
+A dimensão temporal permite estruturar a análise da evolução dos indicadores ao longo dos anos.
 
 ---
 
-## 8. Recorte analítico
+## 8. Decisão de modelagem
 
-**Unidade da Federação:** Santa Catarina (SC)
+O modelo adotado para este ciclo é:
 
-**Tema:** dispêndio estadual em Ciência, Tecnologia e Inovação
-
-**Dimensão temporal:** ano
-
-O recorte permite investigar a evolução histórica do indicador e aplicar
-consultas analíticas, tratamento, AED e visualizações.
-
----
-
-## 9. Metodologia
-
-O projeto seguirá a cadeia:
-
-**Fonte → Entendimento → Modelagem/DW → AED → Tratamento →
-Visualização → Documentação → GitHub**
-
-A investigação será orientada pelo princípio:
-
-> pergunta → dado → estrutura → consulta → análise → evidência → interpretação
-
-A intenção é evitar a construção de gráficos sem uma pergunta analítica
-associada.
-
----
-
-## 10. Tecnologias
-
-- Excel / LibreOffice Calc — inspeção inicial da fonte
-- SQLite — estruturação e consulta dos dados
-- Beekeeper Studio — exploração SQL
-- SQL — consultas analíticas
-- Python
-- Pandas — tratamento e análise
-- Seaborn — visualização
-- Git / GitHub — versionamento e documentação
-
----
-
-## 11. Etapas do projeto
-
-- [x] Localização da base pública
-- [x] Inspeção da estrutura da fonte
-- [x] Identificação das tabelas/abas
-- [x] Investigação da relação entre indicadores e valores
-- [x] Validação da granularidade `ANO + INDICADOR`
-- [x] Definição do recorte em Santa Catarina
-- [x] Definição do modelo dimensional conceitual
-- [ ] Modelagem lógica
-- [ ] Criação do banco SQLite
-- [ ] Consultas SQL
-- [ ] SQL avançado
-- [ ] Tratamento dos dados
-- [ ] AED
-- [ ] Visualizações
-- [ ] Interpretação dos resultados
-- [ ] Consolidação da documentação
-- [ ] Publicação/finalização no GitHub
-
----
-
-## 12. Resultados
-
-*Seção a ser preenchida após a execução das análises.*
-
-Serão apresentados:
-
-- evolução temporal do dispêndio;
-- principais variações observadas;
-- estatísticas descritivas;
-- eventuais comportamentos atípicos;
-- evidências obtidas por SQL e Python;
-- interpretação dos resultados.
-
----
-
-## 13. Próximos passos
-
-1. Validar a modelagem lógica a partir do modelo conceitual.
-2. Criar o banco SQLite.
-3. Carregar os dados tratados.
-4. Executar as primeiras consultas SQL.
-5. Realizar a AED.
-6. Construir as visualizações.
-7. Consolidar os achados.
-8. Finalizar a documentação e o repositório.
-
----
-
-## 14. SCOUT além do M1.2
-
-O M1.2 constitui um primeiro laboratório do SCOUT.
-
-A arquitetura e o processo desenvolvidos neste projeto poderão futuramente
-ser ampliados para outros estados, regiões, indicadores e relações
-temporais.
-
-O objetivo de longo prazo do SCOUT é transformar diferentes fontes e
-indicadores em uma estrutura capaz de apoiar investigações sobre mudanças,
-relações e possíveis defasagens entre fenômenos.
+```text
+             DIM_INDICADOR
+                   |
+                   |
+                   v
+        FATO_INDICADORES_VALOR
+                   ^
+                   |
+                   |
+                DIM_ANO
