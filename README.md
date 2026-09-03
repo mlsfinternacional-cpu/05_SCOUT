@@ -30,7 +30,7 @@ A pesquisa permanece aberta à exploração da fonte. O recorte analítico apres
 
 O recorte foi definido a partir da exploração da estrutura da base e da identificação de indicadores relacionados ao dispêndio estadual em Ciência, Tecnologia e Inovação.
 
-A escolha de Santa Catarina delimita o primeiro laboratório analítico sem impedir que o SCOUT seja posteriormente ampliado para outras Unidades da Federação, regiões, indicadores e relações temporais.
+A escolha de Santa Catarina delimita este laboratório analítico sem impedir que o SCOUT seja posteriormente ampliado para outras Unidades da Federação, regiões, indicadores e relações temporais.
 
 ---
 
@@ -75,7 +75,7 @@ Contém os metadados dos indicadores:
 - `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
-Essa estrutura permite interpretar o significado dos indicadores e contextualizar seus valores.
+Essa estrutura fornece o contexto necessário para interpretar os indicadores e seus valores.
 
 ### `INDICADORES_VALOR`
 
@@ -103,7 +103,7 @@ Resultado:
 
 **0 duplicidades encontradas.**
 
-A combinação `ANO + INDICADOR` foi, portanto, validada como a granularidade adotada para a tabela fato deste ciclo.
+A combinação `ANO + INDICADOR` foi validada como a granularidade adotada para a tabela fato deste ciclo.
 
 > **Grão:** um indicador em um determinado ano.
 
@@ -129,25 +129,49 @@ Também existem códigos específicos por Unidade da Federação.
 
 Essa característica é importante para a interpretação dos indicadores e foi considerada na definição do recorte analítico.
 
-O código do indicador pode, portanto, carregar informação contextual que não aparece como uma coluna geográfica diretamente na tabela de valores.
+O código do indicador pode carregar informação contextual que não aparece como uma coluna geográfica diretamente na tabela de valores.
 
 ---
 
-## 7. Modelo dimensional
+# 7. Modelagem
 
-Após a investigação da estrutura da fonte, foi definido um **Star Schema simplificado** para o M1.2.
+A investigação da fonte levou à construção de um modelo conceitual inicial.
 
-O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico e evitando adicionar estruturas que não sejam necessárias nesta etapa.
+Esse modelo foi utilizado para compreender as estruturas existentes na base, as relações identificadas e as possibilidades de organização dos dados.
+
+## 7.1 Modelo conceitual
+
+![Modelo conceitual do M1.2](imagens/conceito_m1_2.jpeg)
+
+O modelo conceitual representa o entendimento da estrutura encontrada na fonte.
+
+Durante essa etapa, foram identificadas relações diretas e relações que dependem do código ou do contexto do indicador.
+
+A análise dessas relações orientou a decisão sobre quais estruturas seriam efetivamente necessárias para o recorte deste M1.2.
+
+---
+
+## 7.2 Modelo dimensional escolhido
+
+A partir da investigação, foi definido um **Star Schema simplificado** para o M1.2.
+
+O modelo foi deliberadamente mantido enxuto, considerando a pergunta de investigação e evitando adicionar estruturas que não sejam necessárias nesta etapa.
 
 ![Modelo dimensional decidido](imagens/modelo_decidido.jpeg)
 
-### Estrutura do modelo
-
-O modelo é composto por:
+O modelo efetivamente adotado é composto por:
 
 - `DIM_INDICADOR`
 - `FATO_INDICADORES_VALOR`
 - `DIM_ANO`
+
+A decisão de simplificação busca manter coerência entre:
+
+**pergunta → dados → modelo → análise**
+
+---
+
+## 8. Estrutura do modelo dimensional
 
 ### Tabela fato
 
@@ -177,7 +201,7 @@ A chave lógica adotada é:
 
 `DIM_INDICADOR`
 
-Campos provenientes da estrutura `INDICADORES`:
+Campos:
 
 - `INDICADOR`
 - `DESCRICAO_INDICADOR`
@@ -188,7 +212,7 @@ Campos provenientes da estrutura `INDICADORES`:
 - `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
-A dimensão é responsável por fornecer o contexto e a descrição necessários para interpretar a métrica `VALOR`.
+A dimensão fornece o contexto necessário para interpretar a métrica `VALOR`.
 
 ---
 
@@ -204,7 +228,7 @@ A dimensão temporal permite organizar a análise da evolução dos indicadores 
 
 ---
 
-## 8. Recorte analítico
+## 9. Recorte analítico
 
 **Unidade da Federação:** Santa Catarina — SC
 
@@ -220,7 +244,7 @@ Ela representa o recorte utilizado neste laboratório do M1.2.
 
 ---
 
-## 9. Metodologia
+## 10. Metodologia
 
 O projeto segue a cadeia:
 
@@ -236,7 +260,7 @@ A pesquisa sobre a fonte continua durante o desenvolvimento do projeto. Novas de
 
 ---
 
-## 10. Tecnologias
+## 11. Tecnologias
 
 - Excel / LibreOffice Calc — inspeção inicial da fonte
 - SQLite — estruturação e consulta dos dados
@@ -249,7 +273,7 @@ A pesquisa sobre a fonte continua durante o desenvolvimento do projeto. Novas de
 
 ---
 
-## 11. Consultas e análise
+## 12. Consultas SQL
 
 A etapa de SQL será utilizada para:
 
@@ -264,7 +288,7 @@ Recursos de SQL avançado, como CTEs e funções de janela, serão utilizados qu
 
 ---
 
-## 12. AED — Análise Exploratória de Dados
+## 13. AED — Análise Exploratória de Dados
 
 A análise exploratória deverá observar, entre outros aspectos:
 
@@ -282,19 +306,9 @@ Eventuais comportamentos atípicos serão investigados antes de qualquer decisã
 
 ---
 
-## 13. Visualização
-
-A visualização será orientada pela pergunta de investigação.
-
-A primeira visualização analítica deverá representar a evolução temporal do dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina.
-
-Outras visualizações poderão ser incorporadas caso contribuam para responder à pergunta ou aprofundar a interpretação dos dados.
-
----
-
 ## 14. Tratamento dos dados
 
-O tratamento será realizado somente após o entendimento da estrutura e da análise exploratória.
+O tratamento será realizado após o entendimento da estrutura e a análise exploratória.
 
 As transformações deverão ser documentadas para preservar a rastreabilidade entre:
 
@@ -304,7 +318,17 @@ A fonte original não será alterada.
 
 ---
 
-## 15. Estrutura conceitual do projeto
+## 15. Visualização
+
+A visualização será orientada pela pergunta de investigação.
+
+A primeira visualização analítica deverá representar a evolução temporal do dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina.
+
+Outras visualizações poderão ser incorporadas caso contribuam para responder à pergunta ou aprofundar a interpretação dos dados.
+
+---
+
+## 16. Estrutura conceitual do projeto
 
 O M1.2 materializa uma primeira aplicação da engrenagem do SCOUT:
 
