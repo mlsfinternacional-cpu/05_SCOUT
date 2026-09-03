@@ -6,7 +6,7 @@
 
 **Status:** em desenvolvimento
 
-![SCOUT — Radar Tecnológico](imagens/scout_capa.jpeg)
+![SCOUT — Radar Tecnológico](imagens/scout_radar.jpeg)
 
 ---
 
@@ -16,9 +16,11 @@ O SCOUT é um projeto de investigação orientado por dados, concebido para obse
 
 O Projeto Avaliativo M1.2 representa a primeira peça concreta e verificável dessa proposta.
 
-Neste primeiro ciclo, uma base pública do Ministério da Ciência, Tecnologia e Inovação (MCTI) é utilizada como laboratório de experimentação.
+Neste ciclo, uma base pública do Ministério da Ciência, Tecnologia e Inovação (MCTI) é utilizada como laboratório de experimentação.
 
 O objetivo deste M1.2 não é construir o SCOUT inteiro, mas aplicar sua lógica em um recorte real de dados públicos.
+
+A pesquisa permanece aberta à exploração da fonte. O recorte analítico apresentado neste projeto corresponde ao segundo recorte definido a partir da investigação da base.
 
 ---
 
@@ -26,9 +28,9 @@ O objetivo deste M1.2 não é construir o SCOUT inteiro, mas aplicar sua lógica
 
 ### Como evoluiu o dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina ao longo do tempo?
 
-O recorte foi definido após a exploração da estrutura da base, considerando a existência de indicadores estaduais e de séries históricas.
+O recorte foi definido a partir da exploração da estrutura da base e da identificação de indicadores relacionados ao dispêndio estadual em Ciência, Tecnologia e Inovação.
 
-A escolha por Santa Catarina mantém o primeiro ciclo do SCOUT delimitado e permite desenvolver a cadeia completa de investigação antes de ampliar o projeto para outros recortes.
+A escolha de Santa Catarina delimita o primeiro laboratório analítico sem impedir que o SCOUT seja posteriormente ampliado para outras Unidades da Federação, regiões, indicadores e relações temporais.
 
 ---
 
@@ -42,7 +44,7 @@ A escolha por Santa Catarina mantém o primeiro ciclo do SCOUT delimitado e perm
 
 `INDICADORES_CeT_PUB_2025.xlsx`
 
-A fonte contém diferentes estruturas relacionadas a indicadores, valores, unidades da federação, universidades, estudos e metadados.
+A base disponibilizada pelo MCTI contém diferentes estruturas relacionadas a indicadores, valores, unidades da federação, universidades, estudos e metadados.
 
 No arquivo analisado foram identificadas sete abas:
 
@@ -54,17 +56,15 @@ No arquivo analisado foram identificadas sete abas:
 - `TABELA_UNIVERSIDADE`
 - `ESTUDO`
 
-A fonte original é preservada e não é alterada durante a investigação.
-
 ---
 
 ## 4. Entendimento da fonte
 
-A investigação inicial identificou duas estruturas centrais para o recorte analítico.
+A investigação inicial identificou duas estruturas centrais para o modelo analítico.
 
 ### `INDICADORES`
 
-Contém os metadados dos indicadores, incluindo:
+Contém os metadados dos indicadores:
 
 - `INDICADOR`
 - `DESCRICAO_INDICADOR`
@@ -75,7 +75,7 @@ Contém os metadados dos indicadores, incluindo:
 - `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
-Essa estrutura permite compreender o significado e as características de cada indicador.
+Essa estrutura permite interpretar o significado dos indicadores e contextualizar seus valores.
 
 ### `INDICADORES_VALOR`
 
@@ -85,11 +85,11 @@ Contém os valores históricos:
 - `INDICADOR`
 - `VALOR`
 
-A relação direta identificada entre as estruturas é:
+A relação direta identificada entre as duas estruturas é:
 
 `INDICADORES.INDICADOR → INDICADORES_VALOR.INDICADOR`
 
-Assim, a tabela de metadados explica o indicador e a tabela de valores registra sua ocorrência ao longo do tempo.
+Assim, a dimensão do indicador fornece o contexto semântico, enquanto a tabela fato registra os valores observados ao longo do tempo.
 
 ---
 
@@ -103,23 +103,21 @@ Resultado:
 
 **0 duplicidades encontradas.**
 
-A combinação `ANO + INDICADOR` foi validada como granularidade da tabela fato utilizada no modelo.
+A combinação `ANO + INDICADOR` foi, portanto, validada como a granularidade adotada para a tabela fato deste ciclo.
 
-### Granularidade definida
+> **Grão:** um indicador em um determinado ano.
 
-> Um indicador em um determinado ano.
-
-### Métrica
+A métrica armazenada na tabela fato é:
 
 `VALOR`
 
 ---
 
-## 6. Particularidade geográfica da fonte
+## 6. Uma particularidade importante da base
 
-Uma característica importante identificada durante a investigação é que o recorte geográfico pode estar incorporado ao próprio código do indicador.
+Os códigos dos indicadores podem incorporar o próprio recorte geográfico.
 
-Foram observados, por exemplo:
+Exemplos identificados:
 
 - `DISP_EST_CT_REG_N`
 - `DISP_EST_CT_REG_NE`
@@ -127,13 +125,11 @@ Foram observados, por exemplo:
 - `DISP_EST_CT_REG_S`
 - `DISP_EST_CT_REG_CO`
 
-Também existem códigos específicos relacionados às Unidades da Federação.
+Também existem códigos específicos por Unidade da Federação.
 
-Essa característica foi considerada na definição do recorte analítico e deverá ser tratada na etapa de modelagem e tratamento dos dados.
+Essa característica é importante para a interpretação dos indicadores e foi considerada na definição do recorte analítico.
 
-Para este M1.2, o recorte escolhido é:
-
-**Santa Catarina (SC).**
+O código do indicador pode, portanto, carregar informação contextual que não aparece como uma coluna geográfica diretamente na tabela de valores.
 
 ---
 
@@ -143,13 +139,21 @@ Após a investigação da estrutura da fonte, foi definido um **Star Schema simp
 
 O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico e evitando adicionar estruturas que não sejam necessárias nesta etapa.
 
-![Modelo dimensional decidido](imagens/Modelo_conceitual_010826.jpeg)
+![Modelo dimensional decidido](imagens/modelo_decidido.jpeg)
+
+### Estrutura do modelo
+
+O modelo é composto por:
+
+- `DIM_INDICADOR`
+- `FATO_INDICADORES_VALOR`
+- `DIM_ANO`
 
 ### Tabela fato
 
 `FATO_INDICADORES_VALOR`
 
-**Granularidade:**
+**Grão:**
 
 > um indicador em um determinado ano.
 
@@ -163,7 +167,11 @@ O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico e
 - `INDICADOR`
 - `VALOR`
 
-A tabela fato concentra os valores utilizados na análise.
+A chave lógica adotada é:
+
+`ANO + INDICADOR`
+
+---
 
 ### Dimensão indicador
 
@@ -180,7 +188,9 @@ Campos provenientes da estrutura `INDICADORES`:
 - `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
-A dimensão indicador fornece o contexto necessário para interpretar a métrica `VALOR`.
+A dimensão é responsável por fornecer o contexto e a descrição necessários para interpretar a métrica `VALOR`.
+
+---
 
 ### Dimensão temporal
 
@@ -190,254 +200,127 @@ Campo:
 
 - `ANO`
 
-A dimensão temporal permite estruturar a análise da evolução dos indicadores ao longo dos anos.
+A dimensão temporal permite organizar a análise da evolução dos indicadores ao longo dos anos.
 
 ---
 
-## 8. Decisão de modelagem
+## 8. Recorte analítico
 
-O modelo adotado para este ciclo é um **Star Schema simplificado**, composto por uma tabela fato e duas dimensões principais:
+**Unidade da Federação:** Santa Catarina — SC
 
-```text
-              DIM_INDICADOR
-                    |
-                    |
-                    v
-         FATO_INDICADORES_VALOR
-                    ^
-                    |
-                    |
-                 DIM_ANO
-```
+**Tema:** dispêndio estadual em Ciência, Tecnologia e Inovação
 
-A relação entre a fato e `DIM_INDICADOR` ocorre pelo campo:
+**Dimensão temporal:** ano
 
-`INDICADOR`
+O recorte foi definido como uma forma de transformar a exploração ampla da fonte em uma investigação analítica delimitada.
 
-A relação com `DIM_ANO` ocorre pelo campo:
+A delimitação não representa o encerramento da pesquisa sobre a base.
 
-`ANO`
-
-O modelo é propositalmente simples porque o objetivo do M1.2 é validar a engrenagem de investigação, e não construir uma arquitetura maior do que a pergunta exige.
+Ela representa o recorte utilizado neste laboratório do M1.2.
 
 ---
 
-## 9. Estruturas auxiliares
+## 9. Metodologia
 
-As demais estruturas da fonte foram analisadas, mas não serão incorporadas automaticamente ao DW analítico.
-
-### `TABELA_UF`
-
-Contém informações de localização e hierarquia geográfica, como:
-
-- UF
-- sigla da UF
-- região
-- sigla da região
-- nomenclaturas geográficas
-
-Sua utilização será considerada quando necessária ao tratamento e à interpretação do recorte geográfico.
-
-### `TABELA_UNIVERSIDADE`
-
-Contém informações relacionadas a universidades e sua localização.
-
-Neste primeiro recorte, não foi estabelecida uma relação direta suficiente para justificar sua inclusão no DW analítico.
-
-### `TABELAS`
-
-Estrutura relacionada à organização e rastreabilidade das tabelas de origem.
-
-### `ESTUDO`
-
-Estrutura relacionada a estudos, indicadores, status e informações de acompanhamento.
-
-Essas estruturas permanecem como elementos de apoio e rastreabilidade da fonte.
-
----
-
-## 10. Metodologia
-
-O projeto seguirá a cadeia:
+O projeto segue a cadeia:
 
 **Fonte → Entendimento → Modelagem/DW → AED → Tratamento → Visualização → Documentação → GitHub**
 
-A investigação será orientada pelo princípio:
+A investigação é orientada pelo princípio:
 
-> pergunta → dado → estrutura → consulta → análise → evidência → interpretação
+> **pergunta → dado → estrutura → consulta → análise → evidência → interpretação**
 
-A intenção é evitar a construção de gráficos sem uma pergunta analítica associada.
+A intenção é construir as análises a partir da pergunta de investigação, evitando a produção de visualizações sem uma questão analítica associada.
 
-Cada etapa deverá registrar não apenas o procedimento realizado, mas também as decisões tomadas e os motivos que as sustentam.
+A pesquisa sobre a fonte continua durante o desenvolvimento do projeto. Novas descobertas poderão ser documentadas quando forem relevantes para a compreensão dos dados e para a análise.
 
 ---
 
-## 11. Tecnologias
+## 10. Tecnologias
 
 - Excel / LibreOffice Calc — inspeção inicial da fonte
 - SQLite — estruturação e consulta dos dados
 - Beekeeper Studio — exploração SQL
-- SQL — consultas e análises
-- Python — tratamento e análise
-- Pandas — manipulação dos dados
+- SQL — consultas analíticas
+- Python
+- Pandas — tratamento e análise
 - Seaborn — visualização
 - Git / GitHub — versionamento e documentação
 
 ---
 
-## 12. Consultas SQL
+## 11. Consultas e análise
 
-A etapa de SQL será utilizada para explorar e organizar os dados do modelo dimensional.
+A etapa de SQL será utilizada para:
 
-Entre as operações previstas estão:
+- relacionar a tabela fato à dimensão de indicadores;
+- filtrar o recorte analítico;
+- organizar a série temporal;
+- realizar agregações quando pertinentes;
+- investigar variações;
+- produzir consultas analíticas relacionadas à pergunta de investigação.
 
-- seleção e filtragem;
-- junção entre fato e dimensões;
-- agregações;
-- ordenação;
-- comparação temporal;
-- consultas analíticas.
-
-Quando houver pertinência analítica, serão utilizadas funcionalidades de SQL mais avançadas, como CTEs e funções de janela.
-
-A complexidade não será adicionada apenas para demonstrar recurso técnico: cada consulta deverá estar relacionada a uma necessidade da investigação.
+Recursos de SQL avançado, como CTEs e funções de janela, serão utilizados quando contribuírem efetivamente para a análise, sem introduzir complexidade apenas para demonstrar recurso técnico.
 
 ---
 
-## 13. Análise Exploratória de Dados — AED
+## 12. AED — Análise Exploratória de Dados
 
-A AED será realizada sobre o recorte definido para Santa Catarina.
+A análise exploratória deverá observar, entre outros aspectos:
 
-Serão observados, entre outros aspectos:
-
-- período disponível;
 - quantidade de registros;
 - quantidade de indicadores;
+- período disponível;
 - valores ausentes;
 - estatísticas descritivas;
-- evolução temporal;
+- distribuição dos valores;
+- comportamento temporal;
 - variações relevantes;
-- possíveis comportamentos atípicos.
+- possíveis valores atípicos ou comportamentos que exijam investigação.
 
-Eventuais valores extremos ou comportamentos incomuns serão investigados antes de qualquer decisão de tratamento.
+Eventuais comportamentos atípicos serão investigados antes de qualquer decisão de tratamento.
 
 ---
 
-## 14. Visualização
+## 13. Visualização
 
 A visualização será orientada pela pergunta de investigação.
 
-A primeira visualização prevista é uma série temporal do dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina.
+A primeira visualização analítica deverá representar a evolução temporal do dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina.
 
-Outras visualizações poderão ser incorporadas caso contribuam efetivamente para responder à pergunta ou aprofundar a interpretação dos dados.
-
-A intenção não é produzir um grande volume de gráficos, mas construir visualizações que funcionem como evidências da análise.
+Outras visualizações poderão ser incorporadas caso contribuam para responder à pergunta ou aprofundar a interpretação dos dados.
 
 ---
 
-## 15. Tratamento dos dados
+## 14. Tratamento dos dados
 
-O tratamento será realizado após o entendimento da estrutura e a exploração inicial dos dados.
+O tratamento será realizado somente após o entendimento da estrutura e da análise exploratória.
 
-Serão considerados, conforme a necessidade identificada:
+As transformações deverão ser documentadas para preservar a rastreabilidade entre:
 
-- tipos de dados;
-- valores ausentes;
-- padronização;
-- recorte geográfico;
-- interpretação dos indicadores;
-- consistência dos valores;
-- preparação para análise e visualização.
+**fonte original → dado tratado → análise → evidência**
 
-Nenhuma informação será alterada sem que exista uma justificativa metodológica documentada.
+A fonte original não será alterada.
 
 ---
 
-## 16. Resultados
+## 15. Estrutura conceitual do projeto
 
-Esta seção será preenchida após a execução das análises.
-
-Os resultados deverão apresentar:
-
-- evolução temporal observada;
-- principais variações;
-- estatísticas relevantes;
-- comportamentos atípicos eventualmente identificados;
-- evidências obtidas por SQL e Python;
-- interpretação dos achados.
-
-O objetivo é diferenciar **o que os dados mostram** da **interpretação construída a partir deles**.
-
----
-
-## 17. Etapas do projeto
-
-- [x] Localização da base pública
-- [x] Inspeção da estrutura da fonte
-- [x] Identificação das abas
-- [x] Investigação da relação entre indicadores e valores
-- [x] Validação da granularidade `ANO + INDICADOR`
-- [x] Definição do recorte em Santa Catarina
-- [x] Definição do modelo dimensional
-- [ ] Criação do banco SQLite
-- [ ] Carga dos dados
-- [ ] Consultas SQL
-- [ ] SQL avançado quando pertinente
-- [ ] AED
-- [ ] Tratamento dos dados
-- [ ] Visualizações
-- [ ] Interpretação dos resultados
-- [ ] Consolidação da documentação
-- [ ] Finalização do repositório
-
----
-
-## 18. Estrutura prevista do projeto
+O M1.2 materializa uma primeira aplicação da engrenagem do SCOUT:
 
 ```text
-05_SCOUT/
-│
-├── README.md
-│
-├── imagens/
-│   ├── scout_capa.jpeg
-│   └── Modelo_conceitual_010826.jpeg
-│
-├── dados/
-│   └── ...
-│
-├── sql/
-│   └── ...
-│
-├── notebooks/
-│   └── ...
-│
-└── docs/
-    └── ...
-```
-
-A estrutura poderá evoluir conforme as etapas técnicas forem desenvolvidas.
-
----
-
-## 19. SCOUT além do M1.2
-
-O M1.2 constitui um primeiro laboratório do SCOUT.
-
-A partir deste ciclo, a metodologia poderá ser ampliada para outros estados, regiões, indicadores e relações temporais.
-
-O objetivo de longo prazo do SCOUT é construir uma estrutura reutilizável para investigar mudanças, relações e possíveis defasagens entre fenômenos a partir de diferentes fontes e indicadores.
-
-Neste primeiro laboratório, entretanto, a prioridade é:
-
-**fazer a engrenagem funcionar, documentá-la e validar o caminho.**
-
----
-
-## 20. Autoria
-
-**Maria Laura Corrêa da Silva**
-
-Projeto Avaliativo — M1.2
-
-**SCOUT — Projeto de investigação orientado por dados.**
+FONTE
+  ↓
+ENTENDIMENTO
+  ↓
+MODELAGEM / DW
+  ↓
+AED
+  ↓
+TRATAMENTO
+  ↓
+VISUALIZAÇÃO
+  ↓
+DOCUMENTAÇÃO
+  ↓
+GITHUB
