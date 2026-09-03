@@ -134,17 +134,27 @@ dos dados.
 
 ## 7. Modelo dimensional
 
-Para este primeiro ciclo será utilizado um **Star Schema simplificado**.
+Após a investigação da estrutura da fonte, foi definido um **Star Schema
+simplificado** para o M1.2.
+
+O modelo foi deliberadamente mantido enxuto, considerando o recorte analítico
+e evitando adicionar estruturas que não sejam necessárias nesta etapa.
+
+![Modelo dimensional decidido](imagens/modelo_decidido.jpeg)
 
 ### Tabela fato
 
-`FATO_INDICADORES`
+`FATO_INDICADORES_VALOR`
 
-Granularidade:
+**Grão:**
 
 > um indicador em um determinado ano.
 
-Campos principais:
+**Métrica:**
+
+`VALOR`
+
+Campos:
 
 - `ANO`
 - `INDICADOR`
@@ -154,26 +164,38 @@ Campos principais:
 
 `DIM_INDICADOR`
 
-Campos principais:
+Campos:
 
 - `INDICADOR`
 - `DESCRICAO_INDICADOR`
 - `TIPO_INDICADOR`
 - `GRUPO_INDICADOR`
 - `FONTE_INDICADOR`
-- `ELABORACAO_INDICADOR`
 - `NOTAS_ESPECIFICAS`
+- `ELABORACAO_INDICADOR`
 - `LINK_NOTAS_METODOLOGICAS`
 
 ### Dimensão temporal
 
 `DIM_ANO`
 
+Campo:
+
 - `ANO`
 
-A opção por um modelo simplificado busca atender ao objetivo analítico do
-M1.2 sem adicionar complexidade estrutural que não seja necessária ao
-recorte escolhido.
+### Relações
+
+A relação direta identificada entre a dimensão de indicadores e a tabela
+fato ocorre por meio de:
+
+`DIM_INDICADOR.INDICADOR → FATO_INDICADORES_VALOR.INDICADOR`
+
+A dimensão temporal se relaciona à tabela fato por:
+
+`DIM_ANO.ANO → FATO_INDICADORES_VALOR.ANO`
+
+O recorte geográfico em Santa Catarina está presente no próprio código dos
+indicadores selecionados, conforme a estrutura identificada na fonte.
 
 ---
 
@@ -227,7 +249,8 @@ associada.
 - [x] Investigação da relação entre indicadores e valores
 - [x] Validação da granularidade `ANO + INDICADOR`
 - [x] Definição do recorte em Santa Catarina
-- [ ] Modelagem dimensional
+- [x] Definição do modelo dimensional conceitual
+- [ ] Modelagem lógica
 - [ ] Criação do banco SQLite
 - [ ] Consultas SQL
 - [ ] SQL avançado
@@ -257,7 +280,7 @@ Serão apresentados:
 
 ## 13. Próximos passos
 
-1. Construir o Star Schema.
+1. Validar a modelagem lógica a partir do modelo conceitual.
 2. Criar o banco SQLite.
 3. Carregar os dados tratados.
 4. Executar as primeiras consultas SQL.
