@@ -1,4 +1,4 @@
-## AMBIENTE VIRTUAL PYTHON
+# AMBIENTE VIRTUAL PYTHON
 .venv/
 
 # CACHE DO PYTHON
@@ -8,26 +8,45 @@ __pycache__/
 # JUPYTER
 .ipynb_checkpoints/
 
-# VARIAVEIS DE AMBIENTE / SEGREDOS
+# VARIÁVEIS DE AMBIENTE / SEGREDOS
 .env
 .env.*
 
-# CONFIGURACOES LOCAIS DO VS CODE
+# CONFIGURAÇÕES LOCAIS DO VS CODE
 .vscode/
 
-# ARQUIVOS TEMPORARIOS DO SISTEMA
+# ARQUIVOS TEMPORÁRIOS DO SISTEMA
 .DS_Store
 Thumbs.db
 
-# ARQUIVOS TEMPORARIOS DO EXCEL / LIBREOFFICE
+# ARQUIVOS TEMPORÁRIOS DO EXCEL / LIBREOFFICE
 ~$*.xlsx
 ~$*.xls
-.~lock.*#
+~lock.*
 
-# ARQUIVOS TEMPORARIOS / LOCK
+# ARQUIVOS TEMPORÁRIOS / LOCK
 *.lock
 
 # ARQUIVOS DO R
 *.RData
 .Rhistory
 .Rproj.user/
+
+# ARQUIVOS DERIVADOS DA BASE PÚBLICA
+data/*.json
+data/*.RData
+
+# DOCUMENTAÇÃO CONCEITUAL DO SCOUT
+docs/referencias/Scout_Conceito.md
+docs/referencias/Scout_Diretrizes_Metodologicas.md
+docs/referencias/Scout_Especificacao_Tecnica.md
+
+# DOCUMENTAÇÃO DE PROCESSO / BASTIDORES
+docs/referencias/FAPESC/
+docs/referencias/Notas_Evolucao/
+Diario_Ambiente_Python_Git_Windows_organizado.md
+mapa_avaliação_M1_13.md
+mapa_operacional_enquadramento_avaliacao*
+
+# IMAGEM CONCEITUAL ANTERIOR DO SCOUT
+imagens/conceito.jpeg
