@@ -1,24 +1,22 @@
-# SCOUT | M1.2
+# Análise do Dispêndio em Ciência, Tecnologia e Inovação em Santa Catarina
 
-## Análise exploratória de dados públicos sobre Ciência, Tecnologia e Inovação
+## Análise exploratória de dados públicos
 
-![SCOUT — M1.2](imagens/fluxo_analise.jpeg)
+![Fluxo da análise](imagens/fluxo_analise.jpeg)
 
 > Projeto avaliativo do Módulo 1 — Visualização de Dados e Business Intelligence.
 
-O **SCOUT** é um laboratório de investigação orientada por dados sobre Ciência, Tecnologia e Inovação.
+Este repositório apresenta uma análise exploratória de dados públicos sobre o dispêndio estadual em Ciência, Tecnologia e Inovação (CT&I) em Santa Catarina.
 
-O **M1.2** aplica os conhecimentos do Módulo 1 sobre uma base pública do Ministério da Ciência, Tecnologia e Inovação (MCTI).
-
-**Status:** em desenvolvimento
+O objetivo é investigar como esse dispêndio evoluiu ao longo do tempo, a partir de dados públicos do Ministério da Ciência, Tecnologia e Inovação (MCTI).
 
 ---
 
 ## 1. Pergunta de investigação
 
-### Como evoluiu o dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina ao longo do tempo?
+**Como evoluiu o dispêndio estadual em Ciência, Tecnologia e Inovação em Santa Catarina ao longo do tempo?**
 
-O recorte considera:
+**Recorte analítico:**
 
 - **UF:** Santa Catarina — SC
 - **Tema:** dispêndio estadual em Ciência, Tecnologia e Inovação
@@ -34,84 +32,46 @@ O recorte considera:
 
 **Arquivo:** `INDICADORES_CeT_PUB_2025.xlsx`
 
-Abas identificadas:
-
-- `METODOLOGIA`
-- `INDICADORES`
-- `TABELAS`
-- `INDICADORES_VALOR`
-- `TABELA_UF`
-- `TABELA_UNIVERSIDADE`
-- `ESTUDO`
+A base é pública e reúne indicadores e seus respectivos valores históricos.
 
 ---
 
 ## 3. Conhecimento da fonte
 
-Para o recorte definido, foram identificadas duas estruturas principais:
+Antes da análise, a estrutura da base foi investigada para compreender:
 
-### `INDICADORES`
+- indicadores e metadados;
+- valores históricos;
+- relacionamentos entre as estruturas;
+- granularidade dos registros;
+- recortes geográfico e temporal.
 
-Contém os metadados dos indicadores:
+Foram identificadas, entre outras, as estruturas:
 
-- `INDICADOR`
-- `DESCRICAO_INDICADOR`
-- `TIPO_INDICADOR`
-- `GRUPO_INDICADOR`
-- `FONTE_INDICADOR`
-- `NOTAS_ESPECIFICAS`
-- `ELABORACAO_INDICADOR`
-- `LINK_NOTAS_METODOLOGICAS`
+- `INDICADORES`
+- `INDICADORES_VALOR`
 
-### `INDICADORES_VALOR`
-
-Contém os valores históricos:
-
-- `ANO`
-- `INDICADOR`
-- `VALOR`
-
-Relação identificada:
-
-`INDICADORES.INDICADOR → INDICADORES_VALOR.INDICADOR`
+A relação entre indicador e valor histórico orientou a construção do modelo analítico.
 
 ---
 
 ## 4. Granularidade
 
-A combinação `ANO + INDICADOR` foi utilizada para verificar duplicidades.
+A unidade principal da análise é:
 
-**Resultado: 0 duplicidades.**
+> **um indicador em determinado ano.**
 
-**Grão:** um indicador em determinado ano.
+A métrica analisada é o **valor do indicador**.
 
-**Métrica:** `VALOR`
-
----
-
-## 5. Particularidade da base
-
-Os códigos dos indicadores podem incorporar informações sobre o recorte geográfico.
-
-Exemplos:
-
-- `DISP_EST_CT_REG_N`
-- `DISP_EST_CT_REG_NE`
-- `DISP_EST_CT_REG_SE`
-- `DISP_EST_CT_REG_S`
-- `DISP_EST_CT_REG_CO`
-
-Também existem indicadores específicos por Unidade da Federação.
-
-Essa característica foi considerada na definição e interpretação do recorte analítico.
+A combinação `ANO + INDICADOR` foi utilizada para verificar a granularidade e possíveis duplicidades.
 
 ---
 
-# 6. Modelagem
+## 5. Modelagem
 
 A partir da estrutura identificada na fonte, foi definido um **Star Schema simplificado**, adequado à pergunta de investigação.
 
-![Modelo dimensional escolhido](imagens/Modelo_schema_trabalho.jpeg)
+![Modelo de dados](imagens/Modelo_schema_trabalho.jpeg)
 
 ### Modelo adotado
 
@@ -121,56 +81,54 @@ A partir da estrutura identificada na fonte, foi definido um **Star Schema simpl
 
 ### Tabela fato
 
-`FATO_INDICADORES_VALOR`
+**FATO_INDICADORES_VALOR**
 
-**Grão:** um indicador em determinado ano.
-
-**Métrica:** `VALOR`
-
-**Chave lógica:** `ANO + INDICADOR`
+- **Grão:** um indicador em determinado ano
+- **Métrica:** valor
+- **Chave lógica:** `ANO + INDICADOR`
 
 ### Dimensão indicador
 
-`DIM_INDICADOR`
+**DIM_INDICADOR**
 
-Fornece o contexto necessário para interpretar os indicadores e seus valores.
+Contém os atributos necessários para contextualizar e interpretar os indicadores.
 
 ### Dimensão temporal
 
-`DIM_ANO`
+**DIM_ANO**
 
-Permite organizar a análise da evolução dos indicadores ao longo dos anos.
+Organiza a dimensão temporal para análise da evolução dos indicadores.
 
 ---
 
-## 7. Metodologia
+## 6. Metodologia
 
-O projeto seguirá as etapas:
+O fluxo da análise segue:
 
-**Fonte → Conhecimento da planilha → Arquitetura → Modelagem → SQL → AED → Tratamento → Visualização → Insights**
+**Fonte → conhecimento da base → arquitetura → modelagem → SQL → análise exploratória → tratamento → visualização → insights**
 
-A análise será orientada pelo princípio:
+Princípio orientador:
 
 **pergunta → dado → estrutura → consulta → análise → evidência → interpretação**
 
 ---
 
-## 8. SQL
+## 7. SQL
 
-As consultas SQL serão utilizadas para:
+As consultas SQL são utilizadas para:
 
 - relacionar as estruturas do modelo;
-- filtrar o recorte analítico;
+- aplicar o recorte analítico;
 - organizar a série temporal;
 - realizar agregações;
 - investigar variações;
-- produzir evidências relacionadas à pergunta.
+- produzir evidências relacionadas à pergunta de investigação.
 
 ---
 
-## 9. AED — Análise Exploratória de Dados
+## 8. Análise exploratória
 
-A análise exploratória irá investigar:
+A análise exploratória considera:
 
 - quantidade de registros;
 - quantidade de indicadores;
@@ -184,34 +142,36 @@ A análise exploratória irá investigar:
 
 ---
 
-## 10. Tratamento
+## 9. Tratamento
 
-O tratamento será realizado a partir dos resultados da análise exploratória.
+O tratamento dos dados é realizado a partir dos resultados da análise exploratória.
 
-As transformações serão documentadas para preservar a rastreabilidade:
+As transformações são documentadas para preservar a rastreabilidade:
 
 **fonte original → dado tratado → análise → evidência**
 
-A fonte original não será alterada.
+A fonte original não é alterada.
 
 ---
 
-## 11. Visualização e Insights
+## 10. Visualização e Insights
 
-As visualizações serão orientadas pela pergunta de investigação.
+As visualizações são orientadas pela pergunta de investigação.
 
 O objetivo é identificar padrões, variações e comportamentos relevantes nos dados e transformá-los em evidências interpretáveis.
 
+Os insights serão construídos a partir dos resultados obtidos na análise.
+
 ---
 
-## 12. Tecnologias
+## 11. Tecnologias
 
-- Excel / LibreOffice Calc
-- SQLite
-- Beekeeper Studio
-- SQL
 - Python
 - Pandas
+- SQL
+- SQLite
+- Excel / LibreOffice Calc
+- Beekeeper Studio
 - Seaborn
 - Git / GitHub
 
@@ -220,13 +180,18 @@ O objetivo é identificar padrões, variações e comportamentos relevantes nos 
 ## Estrutura do projeto
 
 ```text
-05_SCOUT/
-│
+05_analise_dispendio_inovacao_SC/
 ├── data/
 ├── docs/
 ├── imagens/
-├── notebooks/
-├── scripts/
-├── sql/
-│
+│   ├── fluxo_analise.jpeg
+│   └── Modelo_schema_trabalho.jpeg
+├── .gitignore
+├── mapa_operacional_enquadramento_avaliacao.md
 └── README.md
+
+## Status
+
+**Em desenvolvimento.**
+
+Projeto avaliativo do Módulo 1 — Visualização de Dados e Business Intelligence.
