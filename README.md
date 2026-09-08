@@ -2,7 +2,7 @@
 
 ## Análise exploratória de dados públicos
 
-![Fluxo da análise](imagens/fluxo_analise.jpeg)
+![Fluxo da análise](imagens/Fluxo_da_analise.jpeg)
 
 > Projeto avaliativo do Módulo 1 — Visualização de Dados e Business Intelligence.
 
@@ -71,7 +71,7 @@ A combinação `ANO + INDICADOR` foi utilizada para verificar a granularidade e 
 
 A partir da estrutura identificada na fonte, foi definido um **Star Schema simplificado**, adequado à pergunta de investigação.
 
-![Modelo de dados](imagens/Modelo_schema_trabalho.jpeg)
+![Modelo de dados](imagens/Modelo_decidido.jpeg)
 
 ### Modelo adotado
 
