@@ -24,6 +24,33 @@ O objetivo é investigar como esse dispêndio evoluiu ao longo do tempo, a parti
 
 ---
 
+## 1.1 Contexto de campo
+
+Durante o desenvolvimento deste projeto, participei de uma reunião da ACIF na qual foi apresentada a política **SC Mais Inovação**, da Secretaria de Ciência, Tecnologia e Inovação de Santa Catarina.
+
+A experiência permitiu observar, em contexto real, algumas das estratégias atualmente discutidas para o desenvolvimento da inovação no Estado, incluindo:
+
+- desenvolvimento regional e atuação nas microrregiões;
+- Centros e agentes de inovação;
+- conexão entre empresas, startups, academia e governo;
+- financiamento e instrumentos de apoio;
+- governança e ambiente legal;
+- mapeamento de demandas e oportunidades.
+
+Essas informações **não são incorporadas à série histórica do MCTI como dados quantitativos**.
+
+Elas são utilizadas como **contexto qualitativo para a interpretação dos resultados e dos insights**, mantendo separadas a evidência proveniente da base analisada e as observações realizadas em campo.
+
+A intenção é aproximar duas perspectivas:
+
+> **o que os dados públicos mostram sobre o dispêndio em CT&I**
+>
+> **e como a política de inovação está sendo apresentada e operacionalizada no território.**
+
+Assim, o trabalho permanece centrado na pergunta original e na análise exploratória da base, sem transformar o projeto em uma avaliação abrangente do programa SC Mais Inovação.
+
+---
+
 ## 2. Fonte dos dados
 
 **Instituição:** Ministério da Ciência, Tecnologia e Inovação — MCTI
@@ -111,6 +138,12 @@ Princípio orientador:
 
 **pergunta → dado → estrutura → consulta → análise → evidência → interpretação**
 
+A contextualização de campo entra posteriormente, após os resultados quantitativos, como apoio à interpretação:
+
+**resultado quantitativo → contexto de campo → insight**
+
+A observação de campo não substitui a evidência da base e não é tratada como parte da série histórica.
+
 ---
 
 ## 7. SQL
@@ -162,6 +195,12 @@ O objetivo é identificar padrões, variações e comportamentos relevantes nos 
 
 Os insights serão construídos a partir dos resultados obtidos na análise.
 
+A experiência de campo será utilizada como **contexto para interpretação**, sem substituir os resultados quantitativos.
+
+Uma das perguntas orientadoras nessa etapa será:
+
+> **O que os dados mostram e o que o contexto de campo ajuda a compreender sobre esses resultados?**
+
 ---
 
 ## 11. Tecnologias
@@ -184,14 +223,8 @@ Os insights serão construídos a partir dos resultados obtidos na análise.
 ├── data/
 ├── docs/
 ├── imagens/
-│   ├── fluxo_analise.jpeg
-│   └── Modelo_schema_trabalho.jpeg
+│   ├── Fluxo_da_analise.jpeg
+│   └── Modelo_decidido.jpeg
 ├── .gitignore
 ├── mapa_operacional_enquadramento_avaliacao.md
 └── README.md
-
-## Status
-
-**Em desenvolvimento.**
-
-Projeto avaliativo do Módulo 1 — Visualização de Dados e Business Intelligence.
